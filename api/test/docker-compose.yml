@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    build: ./docker/golang/
+    container_name: golang_container
+    tty: true
+    volumes:
+      - .:/go/src/charts_server
+    ports:
+      - "8080:8000"
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:latest
+    container_name: mysql_charts_container
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOTPASS}
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${USERPASS}
