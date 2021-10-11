@@ -1,6 +1,6 @@
 version: '3'
 services:
-  app:
+  server:
     build: ./docker/golang/
     container_name: golang_container
     tty: true
@@ -8,7 +8,7 @@ services:
       - .:/var/www
     working_dir: /var/www
     ports:
-      - "8080:8000"
+      - "8000:8000"
     depends_on:
       - mysql
   mysql:
@@ -19,3 +19,18 @@ services:
       MYSQL_DATABASE: ${DATABASE}
       MYSQL_USER: ${USERNAME}
       MYSQL_PASSWORD: ${USERPASS}
+
+  envoy:
+    build: ./docker/envoy/
+    container_name: envoy_container
+    tty: true
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+    ports:
+      - "9901:9901"
+      - "9902:9902"
+      - "1000:1000"
+      - "8080:8080"
+    links:
+      - server
