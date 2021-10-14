@@ -33,15 +33,11 @@ services:
   protoc:
     build: ./Dockerfiles/protoc/
     container_name: protoc
-    volumes:
-      - type: bind
-        source: ./
-        target: /app
     tty: true
     volumes:
       - .:/var/www
     working_dir: /var/www
-      #command: bash -c 'npm run protoc'protoc
+      #  command: bash -c 'npm run protoc'
 
   envoy:
     build: ./Dockerfiles/envoy/

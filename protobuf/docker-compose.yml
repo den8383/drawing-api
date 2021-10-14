@@ -1,0 +1,19 @@
+version: '3'
+services:
+  protoc-js:
+    build: ./Dockerfiles/protoc/js/
+    container_name: protoc-js
+    tty: true
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+      #  command: bash -c 'npm run protoc'
+  protoc-go:
+    build: ./Dockerfiles/protoc/golang/
+    container_name: protoc-go
+    tty: true
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+      #  command: bash -c 'npm run protoc'
+
