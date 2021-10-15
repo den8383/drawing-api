@@ -1,0 +1,52 @@
+version: '3'
+services:
+  server:
+    build: ./Dockerfiles/golang/
+    container_name: golang_container
+    tty: true
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+      #ports:
+      #  - "8000:8000"
+      #  - "9090:9090"
+    depends_on:
+      - mysql 
+  mysql:
+    image: mysql:latest
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOTPASS}
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${USERPASS}
+
+  client:
+    build: ./Dockerfiles/node/
+    container_name: node
+    tty: true
+    volumes:
+      - .:/var/www
+      #command: npm run dev
+    working_dir: /var/www
+        
+  protoc:
+    build: ./Dockerfiles/protoc/
+    container_name: protoc
+    tty: true
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+      #  command: bash -c 'npm run protoc'
+
+  envoy:
+    build: ./Dockerfiles/envoy/
+    container_name: envoy_container
+    tty: true
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+    ports:
+      - "9901:9901"
+      - "8080:8080"
+
